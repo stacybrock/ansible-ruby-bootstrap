@@ -1,0 +1,31 @@
+# this taskfile should run as the non-privileged user
+---
+- name: install rbenv
+  git: repo="https://github.com/rbenv/rbenv.git"
+       dest="{{ common.user_home }}/.rbenv"
+       version="v1.1.1"
+
+- name: create plugins dir
+  file:
+    path: "{{ common.user_home }}/.rbenv/plugins"
+    state: directory
+
+- name: install ruby-build
+  git: repo="https://github.com/rbenv/ruby-build.git"
+       dest="{{ common.user_home }}/.rbenv/plugins/ruby-build"
+       version="v20171226"
+
+- name: insert/update rbenv block in user's .bashrc
+  blockinfile:
+    dest: "{{ common.user_home }}/.bashrc"
+    block: |
+      export PATH="$HOME/.rbenv/bin:$PATH"
+      if command -v rbenv 1>/dev/null 2>&1; then
+        eval "$(rbenv init -)"
+      fi
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: rbenv"
+
+- name: install ruby
+  shell: source $HOME/.bashrc && rbenv install {{ common.ruby_version }}
+  args:
+    creates: "{{ common.user_home }}/.rbenv/versions/{{ common.ruby_version}}/bin/ruby"

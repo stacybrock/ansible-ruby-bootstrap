@@ -1,0 +1,15 @@
+---
+- name: install git
+  yum:
+    name: git
+    state: present
+
+- name: install Development Tools package group
+  yum:
+    name: "@Development Tools"
+    state: present
+
+- name: install packages required for ruby
+  yum:
+    name: [ 'zlib-devel', 'readline-devel', 'libyaml-devel', 'libffi-devel', 'openssl-devel', 'sqlite-devel' ]
+    state: present
