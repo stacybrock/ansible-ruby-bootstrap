@@ -4,14 +4,3 @@
     name: "{{ common.create_user }}"
     shell: /bin/bash
     home: "{{ common.user_home }}"
-  when: common.create_user is defined
-
-# - name: insert/update rbenv block in user's .bashrc
-#   blockinfile:
-#     dest: "{{ common.user_home }}/.bashrc"
-#     block: |
-#       export PATH="$HOME/.rbenv/bin:$PATH"
-#       if command -v rbenv 1>/dev/null 2>&1; then
-#         eval "$(rbenv init -)"
-#       fi
-#     marker: "# {mark} ANSIBLE MANAGED BLOCK: rbenv"
