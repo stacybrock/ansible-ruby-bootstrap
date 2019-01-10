@@ -2,4 +2,4 @@
 common:
   create_user: someuser
   user_home: /home/someuser
-  ruby_version: 2.5.0
+  ruby_version: 2.6.0
